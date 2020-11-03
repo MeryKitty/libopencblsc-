@@ -8,14 +8,35 @@
 #ifndef BASICS_CONSTANT_H_INCLUDED
 #define BASICS_CONSTANT_H_INCLUDED
 
+#include <experimental/memory>
+
+static_assert(sizeof(int) == 4);
+static_assert(sizeof(long long) == 8);
+
+namespace std {
+	template <class T>
+	using raw_ptr = experimental::observer_ptr<T>;
+}
+
 namespace opencbls {
 	namespace constant {
 		template <class T>
 		constexpr T false_violation = 1;
 
-		enum arity {
-			unary, binary, multary
-		};
+		template <class T>
+		T tolerance;
+
+		template <>
+		int tolerance = 1;
+
+		template <>
+		long long tolerance = 1;
+
+		template <>
+		float tolerance = 1e-4;
+
+		template <>
+		double tolerance = 1e-8;
 	}
 }
 

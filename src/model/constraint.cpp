@@ -18,8 +18,8 @@
 namespace opencbls {
 	template <class T>
 	constraint_and<T>::constraint_and(std::unique_ptr<constraint_t<T>> oprand1, std::unique_ptr<constraint_t<T>> oprand2) :
-			oprand1(std::move(operand1)),
-			oprand2(std::move(operand2)) {}
+			_operand1(std::move(operand1)),
+			_operand2(std::move(operand2)) {}
 
 	template <class T>
 	T constraint_and<T>::violation() {
@@ -30,8 +30,8 @@ namespace opencbls {
 
 	template <class T>
 	constraint_or<T>::constraint_or(std::unique_ptr<constraint_t<T>> oprand1, std::unique_ptr<constraint_t<T>> oprand2) :
-			oprand1(std::move(operand1)),
-			oprand2(std::move(operand2)) {};
+			_operand1(std::move(operand1)),
+			_operand2(std::move(operand2)) {};
 
 	template <class T>
 	T constraint_or<T>::violation() {
@@ -45,7 +45,7 @@ namespace opencbls {
 
 	template <class T>
 	constraint_not<T>::constraint_not(std::unique_ptr<constraint_t<T>> operand) :
-			operand(std::move(operand)) {}
+			_operand(std::move(operand)) {}
 
 	template <class T>
 	T constraint_not<T>::violation() {
@@ -55,8 +55,8 @@ namespace opencbls {
 
 	template <class T>
 	constraint_xor<T>::constraint_xor(std::unique_ptr<constraint_t<T>> operand1, std::unique_ptr<constraint_t<T>> operand2) :
-			operand1(std::move(operand1)),
-			operand2(std::move(operand2)) {
+			_operand1(std::move(operand1)),
+			_operand2(std::move(operand2)) {
 		throw std::exception();
 	}
 
@@ -67,11 +67,7 @@ namespace opencbls {
 
 	template <class T>
 	constraint_multi_and<T>::constraint_multi_and(std::vector<std::unique_ptr<constraint_t<T>>> operands) :
-			operands(std::move(operands)) {
-		if (this->operands.empty()) {
-			throw std::exception();
-		}
-	}
+			_operands(std::move(operands)) {}
 
 	template <class T>
 	T constraint_multi_and<T>::violation() {
@@ -84,7 +80,7 @@ namespace opencbls {
 
 	template <class T>
 	constraint_multi_or<T>::constraint_multi_or(std::vector<std::unique_ptr<constraint_t<T>>> operands) :
-			operands(std::move(operands)) {}
+			_operands(std::move(operands)) {}
 
 	template <class T>
 	T constraint_multi_or<T>::violation() {
