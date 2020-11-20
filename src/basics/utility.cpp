@@ -26,8 +26,8 @@ namespace opencbls {
 	}
 
 	std::vector<bool> make_onehot(std::size_t value) {
-		std::vector<bool> result(value);
-		result[value - 1] = true;
+		std::vector<bool> result(value + 1);
+		result[value] = true;
 		return result;
 	}
 }

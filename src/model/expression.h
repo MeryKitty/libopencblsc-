@@ -24,15 +24,15 @@ namespace opencbls {
 	template <class T>
 	class const_t {
 	private:
-		static std::vector<bool> _dummy();
+		static std::vector<bool> _dummy;
 
 		T _value;
 	public:
 		const_t();
 		const_t(T value);
 
-		T eval();
-		const std::vector<bool>& dummy_vector();
+		T value();
+		std::vector<bool>& dummy_vector();
 	};
 
 	template <class T>
@@ -47,8 +47,10 @@ namespace opencbls {
 		var_t(std::size_t id, T min, T max);
 
 		std::size_t id();
-		T eval();
-		const std::vector<bool>& id_onehot();
+		T min(); T max();
+		T value();
+		void assign(T value);
+		std::vector<bool>& id_onehot();
 	};
 
 	template <class T>
@@ -57,6 +59,7 @@ namespace opencbls {
 		std::variant<std::unique_ptr<op_t<T>>, std::raw_ptr<var_t<T>>, const_t<T>> _expr;
 
 	public:
+		expr_t() = delete;
 		expr_t(expr_t<T>&& in);
 		expr_t<T>& operator= (expr_t<T>&& in);
 
@@ -64,9 +67,9 @@ namespace opencbls {
 		expr_t(std::raw_ptr<var_t<T>> var);
 		expr_t(const_t<T> cst);
 
-		T eval();
+		T value();
 		T delta(std::raw_ptr<var_t<T>> var, T value);
-		const std::vector<bool>& related_var();
+		std::vector<bool>& related_var();
 	};
 
 	template <class T>
@@ -74,15 +77,15 @@ namespace opencbls {
 	protected:
 		std::vector<bool> _related_var;
 
-		bool relate(std::raw_ptr<var_t<T>> var) noexcept;
-
 		virtual T delta_helper(std::raw_ptr<var_t<T>> var, T value) = 0;
 	public:
-		T delta(std::raw_ptr<var_t<T>> var, T value);
-		const std::vector<bool>& related_var();
+		op_t(std::vector<bool> related_var);
 
-		virtual T eval() = 0;
-		virtual ~op_t() = 0;
+		T delta(std::raw_ptr<var_t<T>> var, T value);
+		std::vector<bool>& related_var();
+
+		virtual T value() = 0;
+		virtual ~op_t();
 	};
 }
 

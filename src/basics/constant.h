@@ -21,22 +21,22 @@ namespace std {
 namespace opencbls {
 	namespace constant {
 		template <class T>
-		constexpr T false_violation = 1;
+		constexpr T false_violation = T(1);
 
 		template <class T>
 		T tolerance;
 
 		template <>
-		int tolerance = 1;
+		constexpr int tolerance<int> = 1;
 
 		template <>
-		long long tolerance = 1;
+		constexpr long long tolerance<long long> = 1;
 
 		template <>
-		float tolerance = 1e-4;
+		constexpr float tolerance<float> = 1e-4;
 
 		template <>
-		double tolerance = 1e-8;
+		constexpr double tolerance<double> = 1e-8;
 	}
 }
 
