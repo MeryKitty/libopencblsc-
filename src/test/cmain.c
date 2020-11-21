@@ -43,9 +43,5 @@ int main() {
 
 	solve_int(_solver);
 
-	int temp;
-	for (i = 0; i < n; i++) {
-		temp = get_int_variable_value(_vars[i]);
-		printf("%5d\n", temp);
-	}
+	print_values(_solver);
 }

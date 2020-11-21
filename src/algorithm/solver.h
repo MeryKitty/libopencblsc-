@@ -34,6 +34,8 @@ namespace opencbls {
 		std::vector<T> value();
 		void solve();
 		void clear();
+		void print_value();
+		void print_violation();
 	};
 }
 

@@ -12,7 +12,7 @@ extern "C" {
 	void* op_add_int(void* operand1, void* operand2);
 	void* op_sub_int(void* operand1, void* operand2);
 
-	void* constraint_all_not_equal(int operand_num, void** operands);
+	void* constraint_all_not_equal(int operand_num, void* operands);
 }
 
 #endif /* API_MODEL_H_INCLUDED */

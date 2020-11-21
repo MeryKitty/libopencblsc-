@@ -5,6 +5,7 @@
  *      Author: MeryKitty
  */
 
+#include <iostream>
 #include <memory>
 #include <utility>
 #include <vector>
@@ -56,6 +57,20 @@ namespace opencbls {
 			_variables.emplace_back(std::raw_ptr<var_t<T>>(var.get()));
 		}
 		this->_algo(_variables, this->_constraints);
+	}
+
+	template <class T>
+	void solver<T>::print_value() {
+		for (auto&& _var : this->_variables) {
+			std::cout << _var->value() << std::endl;
+		}
+	}
+
+	template <class T>
+	void solver<T>::print_violation() {
+		for (auto&& _constraint : this->_constraints) {
+			std::cout << _constraint.first << " - " << _constraint.second->violation() << std::endl;
+		}
 	}
 
 	template class solver<int>;

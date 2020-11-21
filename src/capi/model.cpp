@@ -25,12 +25,11 @@ extern "C" {
 				std::move(*_operand1), std::move(*_operand2)));
 	}
 
-
-
-	void* constraint_all_not_equal(int operand_num, void** operands) {
+	void* constraint_all_not_equal(int operand_num, void* operands) {
+		void** poperands = (void**) operands;
 		std::vector<opencbls::expr_t<int>> _operands;
 		for (std::size_t i = 0; i < operand_num; i++) {
-			opencbls::expr_t<int>* _operand = (opencbls::expr_t<int>*) operands[i];
+			opencbls::expr_t<int>* _operand = (opencbls::expr_t<int>*) poperands[i];
 			_operands.emplace_back(std::move(*_operand));
 		}
 		return new opencbls::constraint_all_not_equal<int>(std::move(_operands));

@@ -26,10 +26,14 @@ extern "C" {
 		}
 	}
 
-	void add_int_constraint(void* solver, void* constraint, int weight = 1) {
+	void add_int_weighted_constraint(void* solver, void* constraint, int weight) {
 		opencbls::solver<int>* _solver = (opencbls::solver<int>*) solver;
 		std::unique_ptr<opencbls::constraint_t<int>> _constraint((opencbls::constraint_t<int>*)constraint);
 		_solver->add_constraint(std::move(_constraint), weight);
+	}
+
+	void add_int_constraint(void* solver, void* constraint) {
+		add_int_weighted_constraint(solver, constraint, 1);
 	}
 
 	void* add_int_variable(void* solver, int min, int max) {
@@ -54,5 +58,15 @@ extern "C" {
 	int get_int_variable_value(void* var) {
 		opencbls::var_t<int>* _var = (opencbls::var_t<int>*) var;
 		return _var->value();
+	}
+
+	void print_values(void* solver) {
+		opencbls::solver<int>* _solver = (opencbls::solver<int>*) solver;
+		_solver->print_value();
+	}
+
+	void print_violation(void* solver) {
+		opencbls::solver<int>* _solver = (opencbls::solver<int>*) solver;
+		_solver->print_violation();
 	}
 }
