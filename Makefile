@@ -1,7 +1,7 @@
 CC = g++
-FLAGS = -std=c++17 -O3
+FLAGS = -std=c++17 -O3 -fPIC
 CFLAGS = -I ./src -c
-LFLAGS = -I ./build
+LFLAGS = -shared
 
 build/basics/utility.o: src/basics/utility.cpp
 	$(CC) $(FLAGS) $(CFLAGS) -o build/basics/utility.o src/basics/utility.cpp
@@ -40,7 +40,10 @@ build/test/cmain.o: src/test/cmain.c
 	$(CC) $(FLAGS) $(CFLAGS) -o build/test/cmain.o src/test/cmain.c	
 
 test: build/test/cmain.o build/basics/utility.o build/model/expression.o build/model/op_impl.o build/model/constraint.o build/model/numeric_constraint.o build/model/combinatoric_constraint.o build/algorithm/solver.o build/algorithm/simple_hill_climbing.o build/capi/model.o build/capi/algorithm.o
-	$(CC) $(FLAGS) $(LFLAGS) -o build/testmain build/test/cmain.o build/basics/utility.o build/model/expression.o build/model/op_impl.o build/model/constraint.o build/model/numeric_constraint.o build/model/combinatoric_constraint.o build/algorithm/solver.o build/algorithm/simple_hill_climbing.o build/capi/model.o build/capi/algorithm.o
+	$(CC) $(FLAGS) -o build/testmain build/test/cmain.o build/basics/utility.o build/model/expression.o build/model/op_impl.o build/model/constraint.o build/model/numeric_constraint.o build/model/combinatoric_constraint.o build/algorithm/solver.o build/algorithm/simple_hill_climbing.o build/capi/model.o build/capi/algorithm.o
+
+library: build/basics/utility.o build/model/expression.o build/model/op_impl.o build/model/constraint.o build/model/numeric_constraint.o build/model/combinatoric_constraint.o build/algorithm/solver.o build/algorithm/simple_hill_climbing.o build/capi/model.o build/capi/algorithm.o
+	$(CC) $(FLAGS) $(LFLAGS) -o build/libopencblscpp.so build/basics/utility.o build/model/expression.o build/model/op_impl.o build/model/constraint.o build/model/numeric_constraint.o build/model/combinatoric_constraint.o build/algorithm/solver.o build/algorithm/simple_hill_climbing.o build/capi/model.o build/capi/algorithm.o
 
 clean:
 	rm -f build/*/*
