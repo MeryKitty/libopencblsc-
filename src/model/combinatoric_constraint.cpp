@@ -14,7 +14,7 @@
 
 namespace opencbls {
 	template <class T>
-	all_not_equal<T>::all_not_equal(std::vector<expr_t<T>> operands) :
+	constraint_all_not_equal<T>::constraint_all_not_equal(std::vector<expr_t<T>> operands) :
 			constraint_t<T>::constraint_t(std::vector<bool>()),
 			_operands(std::move(operands)) {
 		for (auto&& _operand : this->_operands) {
@@ -23,7 +23,7 @@ namespace opencbls {
 	}
 
 	template <class T>
-	T all_not_equal<T>::violation() {
+	T constraint_all_not_equal<T>::violation() {
 		T result = 0;
 		for (std::size_t i = 0; i < this->_operands.size(); i++) {
 			T _current = this->_operands[i].value();
@@ -40,7 +40,7 @@ namespace opencbls {
 	}
 
 	template <class T>
-	T all_not_equal<T>::violation_delta_helper(std::raw_ptr<var_t<T>> var, T value) {
+	T constraint_all_not_equal<T>::violation_delta_helper(std::raw_ptr<var_t<T>> var, T value) {
 		std::vector<T> _new_value(this->_operands.size());
 		for (std::size_t i = 0; i < this->_operands.size(); i++) {
 			_new_value[i] = this->_operands[i].value() + this->_operands[i].delta(var, value);
@@ -58,5 +58,5 @@ namespace opencbls {
 		return new_result - this->violation();
 	}
 
-	template class all_not_equal<int>;
+	template class constraint_all_not_equal<int>;
 }

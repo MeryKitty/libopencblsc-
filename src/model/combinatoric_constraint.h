@@ -15,13 +15,13 @@
 
 namespace opencbls {
 	template <class T>
-	class all_not_equal : public constraint_t<T> {
+	class constraint_all_not_equal : public constraint_t<T> {
 	private:
 		std::vector<expr_t<T>> _operands;
 	protected:
 		T violation_delta_helper(std::raw_ptr<var_t<T>> var, T value);
 	public:
-		all_not_equal(std::vector<expr_t<T>> operands);
+		constraint_all_not_equal(std::vector<expr_t<T>> operands);
 
 		T violation();
 	};
