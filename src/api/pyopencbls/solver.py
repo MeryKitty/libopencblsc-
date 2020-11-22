@@ -60,3 +60,4 @@ class IntSolver:
 
     def solve(self) -> None:
         lib.int_solve(c_void_p(self._internal))
+        lib.print_violation(c_void_p(self._internal))

@@ -5,6 +5,7 @@
  *      Author: MeryKitty
  */
 
+#include <iostream>
 #include <vector>
 
 #include "basics/constant.h"

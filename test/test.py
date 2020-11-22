@@ -25,14 +25,13 @@ def main():
     third_constraint_operands = []
     for i, var in enumerate(vars):
         third_constraint_operands.append(var - solver.IntConstant(i))
-    third_constraint = constraint.IntAllNotEqual(second_constraint_operands)
+    third_constraint = constraint.IntAllNotEqual(third_constraint_operands)
     _solver.add_constraint(third_constraint)
 
     _solver.solve()
 
     for i in range(n):
         print(vars[i].value())
-
 
 if __name__ == "__main__":
     main()
