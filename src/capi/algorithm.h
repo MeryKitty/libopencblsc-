@@ -9,14 +9,14 @@
 #define API_ALGORITHM_H_INCLUDED
 
 extern "C" {
-	void* get_int_solver(char* algorithm);
-	void add_int_weighted_constraint(void* solver, void* constraint, int weight);
-	void add_int_constraint(void* solver, void* constraint);
-	void* add_int_variable(void* solver, int min, int max);
-	void* add_int_constant(int value);
-	void solve_int(void* solver);
-	void* get_int_variable(void* var);
-	int get_int_variable_value(void* var);
+	void* int_get_solver(char* algorithm);
+	void int_add_weighted_constraint(void* solver, void* constraint, int weight);
+	void int_add_constraint(void* solver, void* constraint);
+	void* int_add_variable(void* solver, int min, int max);
+	void* int_add_constant(int value);
+	void int_solve(void* solver);
+	void* int_get_variable_expression(void* var);
+	int int_get_variable_value(void* var);
 	void print_values(void* solver);
 	void print_violation(void* solver);
 }
