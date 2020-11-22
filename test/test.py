@@ -9,7 +9,6 @@ def main():
     vars: list[solver.IntVar]
     vars = []
     for i in range(n):
-        print(i)
         vars.append(_solver.add_variable(0, n))
 
     first_constraint = constraint.IntAllNotEqual(vars)

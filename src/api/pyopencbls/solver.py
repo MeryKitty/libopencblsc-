@@ -10,12 +10,12 @@ class IntExpression:
         return c_void_p(0)
 
     def __add__(self, other: IntExpression) -> IntExpression:
-        from .operation import IntOpAdd
-        return IntOpAdd(self, other)
+        from .operation import IntAdd
+        return IntAdd(self, other)
 
     def __sub__(self, other: IntExpression) -> IntExpression:
-        from .operation import IntOpSub
-        return IntOpSub(self, other)
+        from .operation import IntSub
+        return IntSub(self, other)
 
 class IntConstant(IntExpression):
     _value: int

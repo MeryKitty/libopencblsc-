@@ -11,4 +11,19 @@ lib.int_get_variable_value.restype = c_int32
 
 lib.int_op_add.restype = c_void_p
 lib.int_op_sub.restype = c_void_p
+lib.int_op_mul.restype = c_void_p
+lib.int_op_div.restype = c_void_p
+
+lib.int_constraint_and.restype = c_void_p
+lib.int_constraint_or.restype = c_void_p
+lib.int_constraint_xor.restype = c_void_p
+lib.int_constraint_not.restype = c_void_p
+
+lib.int_constraint_equal.restype = c_void_p
+lib.int_constraint_not_equal.restype = c_void_p
+lib.int_constraint_less_than.restype = c_void_p
+lib.int_constraint_more_than.restype = c_void_p
+lib.int_constraint_not_more_than.restype = c_void_p
+lib.int_constraint_not_less_than.restype = c_void_p
+
 lib.int_constraint_all_not_equal.restype = c_void_p
