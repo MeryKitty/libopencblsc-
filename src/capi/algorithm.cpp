@@ -51,7 +51,7 @@ extern "C" {
 		_solver->solve();
 	}
 
-	void* int_get_variable(void* var) {
+	void* int_get_variable_expression(void* var) {
 		return new opencbls::expr_t<int>(std::raw_ptr<opencbls::var_t<int>>((opencbls::var_t<int>*) var));
 	}
 
