@@ -11,8 +11,8 @@ class IntAdd(IntOperation):
         self._operand1 = operand1
         self._operand2 = operand2
 
-    def get(self) -> c_void_p:
-        return lib.int_op_add(c_void_p(self._operand1.get()), c_void_p(self._operand2.get()))
+    def _get(self) -> c_void_p:
+        return lib.int_op_add(c_void_p(self._operand1._get()), c_void_p(self._operand2._get()))
 
 class IntSub(IntOperation):
     _operand1: IntExpression
@@ -22,8 +22,8 @@ class IntSub(IntOperation):
         self._operand1 = operand1
         self._operand2 = operand2
 
-    def get(self) -> c_void_p:
-        return lib.int_op_sub(c_void_p(self._operand1.get()), c_void_p(self._operand2.get()))
+    def _get(self) -> c_void_p:
+        return lib.int_op_sub(c_void_p(self._operand1._get()), c_void_p(self._operand2._get()))
 
 class IntMul(IntOperation):
     _operand1: IntExpression
@@ -33,8 +33,8 @@ class IntMul(IntOperation):
         self._operand1 = operand1
         self._operand2 = operand2
 
-    def get(self) -> c_void_p:
-        return lib.int_op_mul(c_void_p(self._operand1.get()), c_void_p(self._operand2.get()))
+    def _get(self) -> c_void_p:
+        return lib.int_op_mul(c_void_p(self._operand1._get()), c_void_p(self._operand2._get()))
 
 class IntDiv(IntOperation):
     _operand1: IntExpression
@@ -44,5 +44,5 @@ class IntDiv(IntOperation):
         self._operand1 = operand1
         self._operand2 = operand2
 
-    def get(self) -> c_void_p:
-        return lib.int_op_div(c_void_p(self._operand1.get()), c_void_p(self._operand2.get()))
+    def _get(self) -> c_void_p:
+        return lib.int_op_div(c_void_p(self._operand1._get()), c_void_p(self._operand2._get()))

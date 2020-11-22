@@ -6,7 +6,7 @@ from .api import lib
 
 class IntExpression:
     @abstractmethod
-    def get(self) -> c_void_p:
+    def _get(self) -> c_void_p:
         return c_void_p(0)
 
     def __add__(self, other: IntExpression) -> IntExpression:
@@ -23,7 +23,7 @@ class IntConstant(IntExpression):
     def __init__(self, value: int) -> None:
         self._value = value
 
-    def get(self) -> c_void_p:
+    def _get(self) -> c_void_p:
         return lib.int_add_constant(self._value)
 
 class IntVar(IntExpression):
@@ -32,7 +32,7 @@ class IntVar(IntExpression):
     def __init__(self, internal: c_void_p) -> None:
         self._internal = internal
 
-    def get(self) -> c_void_p:
+    def _get(self) -> c_void_p:
         return lib.int_get_variable_expression(c_void_p(self._internal))
 
     def value(self) -> int:
@@ -43,7 +43,7 @@ class IntOperation(IntExpression):
 
 class IntConstraint:
     @abstractmethod
-    def get(self) -> c_void_p:
+    def _get(self) -> c_void_p:
         return c_void_p(0)
 
 class IntSolver:
@@ -56,7 +56,7 @@ class IntSolver:
         return IntVar(lib.int_add_variable(c_void_p(self._internal), c_int32(min), c_int32(max)))
 
     def add_constraint(self, constraint: IntConstraint) -> None:
-        lib.int_add_constraint(c_void_p(self._internal), c_void_p(constraint.get()))
+        lib.int_add_constraint(c_void_p(self._internal), c_void_p(constraint._get()))
 
     def solve(self) -> None:
         lib.int_solve(c_void_p(self._internal))
