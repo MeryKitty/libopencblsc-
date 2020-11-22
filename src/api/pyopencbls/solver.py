@@ -7,7 +7,7 @@ from .api import lib
 class IntExpression:
     @abstractmethod
     def _get(self) -> c_void_p:
-        return c_void_p(0)
+        return None
 
     def __add__(self, other: IntExpression) -> IntExpression:
         from .operation import IntAdd
@@ -44,7 +44,7 @@ class IntOperation(IntExpression):
 class IntConstraint:
     @abstractmethod
     def _get(self) -> c_void_p:
-        return c_void_p(0)
+        return None
 
 class IntSolver:
     _internal: c_void_p
@@ -61,3 +61,13 @@ class IntSolver:
     def solve(self) -> None:
         lib.int_solve(c_void_p(self._internal))
         lib.print_violation(c_void_p(self._internal))
+
+    def close(self) -> None:
+        lib.int_close_solver(c_void_p(self._internal))
+        self._internal = None
+
+    def __enter__(self) -> IntSolver:
+        return self
+
+    def __exit__(self, type, value, traceback) -> None:
+        self.close()

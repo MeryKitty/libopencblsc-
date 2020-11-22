@@ -10,6 +10,7 @@
 
 extern "C" {
 	void* int_get_solver(char* algorithm);
+	void int_close_solver(void* solver);
 	void int_add_weighted_constraint(void* solver, void* constraint, int weight);
 	void int_add_constraint(void* solver, void* constraint);
 	void* int_add_variable(void* solver, int min, int max);

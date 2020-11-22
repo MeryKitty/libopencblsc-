@@ -26,6 +26,11 @@ extern "C" {
 		}
 	}
 
+	void int_close_solver(void* solver) {
+		opencbls::solver<int>* _solver = (opencbls::solver<int>*) solver;
+		delete _solver;
+	}
+
 	void int_add_weighted_constraint(void* solver, void* constraint, int weight) {
 		opencbls::solver<int>* _solver = (opencbls::solver<int>*) solver;
 		std::unique_ptr<opencbls::constraint_t<int>> _constraint((opencbls::constraint_t<int>*)constraint);
