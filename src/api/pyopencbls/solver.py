@@ -4,18 +4,141 @@ from ctypes import c_void_p, c_int32, c_char_p
 
 from .api import lib
 
+class IntConstraint:
+    @abstractmethod
+    def _get(self) -> c_void_p:
+        return None
+
 class IntExpression:
     @abstractmethod
     def _get(self) -> c_void_p:
         return None
 
-    def __add__(self, other: IntExpression) -> IntExpression:
+    def __add__(self, other) -> IntExpression:
         from .operation import IntAdd
-        return IntAdd(self, other)
+        if isinstance(other, IntExpression):
+            return IntAdd(self, other)
+        elif isinstance(other, int):
+            return IntAdd(self, IntConstant(other))
+        else:
+            return NotImplemented
 
-    def __sub__(self, other: IntExpression) -> IntExpression:
+    def __radd__(self, other) -> IntExpression:
+        from .operation import IntAdd
+        if isinstance(other, int):
+            return IntAdd(IntConstant(other), self)
+        elif isinstance(other, IntExpression):
+            raise AssertionError()
+        else:
+            return NotImplemented
+
+    def __sub__(self, other) -> IntExpression:
         from .operation import IntSub
-        return IntSub(self, other)
+        if isinstance(other, IntExpression):
+            return IntSub(self, other)
+        elif isinstance(other, int):
+            return IntSub(self, IntConstant(other))
+        else:
+            return NotImplemented
+
+    def __rsub__(self, other) -> IntExpression:
+        from .operation import IntSub
+        if isinstance(other, int):
+            return IntSub(IntConstant(other), self)
+        elif isinstance(other, IntExpression):
+            raise AssertionError()
+        else:
+            return NotImplemented
+
+    def __mul__(self, other) -> IntExpression:
+        from .operation import IntMul
+        if isinstance(other, IntExpression):
+            return IntMul(self, other)
+        elif isinstance(other, int):
+            return IntMul(self, IntConstant(other))
+        else:
+            return NotImplemented
+
+    def __rmul__(self, other) -> IntExpression:
+        from .operation import IntMul
+        if isinstance(other, int):
+            return IntMul(IntConstant(other), self)
+        elif isinstance(other, IntExpression):
+            raise AssertionError()
+        else:
+            return NotImplemented
+
+    def __floordiv__(self, other) -> IntExpression:
+        from .operation import IntDiv
+        if isinstance(other, IntExpression):
+            return IntDiv(self, other)
+        elif isinstance(other, int):
+            return IntDiv(self, IntConstant(other))
+        else:
+            return NotImplemented
+
+    def __rfloordiv__(self, other) -> IntExpression:
+        from .operation import IntDiv
+        if isinstance(other, int):
+            return IntDiv(IntConstant(other), self)
+        elif isinstance(other, IntExpression):
+            raise AssertionError()
+        else:
+            return NotImplemented
+
+    def __eq__(self, other) -> IntConstraint:
+        from .constraint import IntEqual
+        if isinstance(other, IntExpression):
+            return IntEqual(self, other)
+        elif isinstance(other, int):
+            return IntEqual(self, IntConstant(other))
+        else:
+            return NotImplemented
+
+    def __ne__(self, other) -> IntConstraint:
+        from .constraint import IntNotEqual
+        if isinstance(other, IntExpression):
+            return IntNotEqual(self, other)
+        elif isinstance(other, int):
+            return IntNotEqual(self, IntConstant(other))
+        else:
+            return NotImplemented
+
+    def __lt__(self, other) -> IntConstraint:
+        from .constraint import IntLessThan
+        if isinstance(other, IntExpression):
+            return IntLessThan(self, other)
+        elif isinstance(other, int):
+            return IntLessThan(self, IntConstant(other))
+        else:
+            return NotImplemented
+
+    def __gt__(self, other) -> IntConstraint:
+        from .constraint import IntMoreThan
+        if isinstance(other, IntExpression):
+            return IntMoreThan(self, other)
+        elif isinstance(other, int):
+            return IntMoreThan(self, IntConstant(other))
+        else:
+            return NotImplemented
+
+    def __le__(self, other) -> IntConstraint:
+        from .constraint import IntNotMoreThan
+        if isinstance(other, IntExpression):
+            return IntNotMoreThan(self, other)
+        elif isinstance(other, int):
+            return IntNotMoreThan(self, IntConstant(other))
+        else:
+            return NotImplemented
+
+    def __ge__(self, other) -> IntConstraint:
+        from .constraint import IntNotLessThan
+        if isinstance(other, IntExpression):
+            return IntNotLessThan(self, other)
+        elif isinstance(other, int):
+            return IntNotLessThan(self, IntConstant(other))
+        else:
+            return NotImplemented
 
 class IntConstant(IntExpression):
     _value: int
@@ -24,7 +147,7 @@ class IntConstant(IntExpression):
         self._value = value
 
     def _get(self) -> c_void_p:
-        return lib.int_add_constant(self._value)
+        return lib.int_add_constant(c_int32(self._value))
 
 class IntVar(IntExpression):
     _internal: c_void_p
@@ -41,11 +164,6 @@ class IntVar(IntExpression):
 class IntOperation(IntExpression):
     pass
 
-class IntConstraint:
-    @abstractmethod
-    def _get(self) -> c_void_p:
-        return None
-
 class IntSolver:
     _internal: c_void_p
 
@@ -60,7 +178,6 @@ class IntSolver:
 
     def solve(self) -> None:
         lib.int_solve(c_void_p(self._internal))
-        lib.print_violation(c_void_p(self._internal))
 
     def close(self) -> None:
         lib.int_close_solver(c_void_p(self._internal))
