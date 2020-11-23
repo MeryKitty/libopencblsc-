@@ -1,10 +1,3 @@
-/*
- * algorithm.cpp
- *
- *  Created on: 20 Nov 2020
- *      Author: MeryKitty
- */
-
 #include <cstring>
 #include <memory>
 #include <utility>

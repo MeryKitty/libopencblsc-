@@ -1,5 +1,5 @@
 /*
- * combinatorial_constraint.cpp
+ * combinatoric_constraint.cpp
  *
  *  Created on: 13 Nov 2020
  *      Author: MeryKitty

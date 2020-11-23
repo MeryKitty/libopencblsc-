@@ -1,10 +1,3 @@
-/*
- * hill_climbing.cpp
- *
- *  Created on: 17 Nov 2020
- *      Author: MeryKitty
- */
-
 #include <iostream>
 #include <memory>
 #include <utility>

@@ -1,8 +1,12 @@
 from __future__ import annotations
+import enum
 from abc import abstractmethod
 from ctypes import c_void_p, c_int32, c_char_p
 
 from .api import lib
+
+class Algorithm(enum.Enum):
+    SIMPLE_HILL_CLIMBING = 'simple hill climbing'
 
 class IntConstraint:
     @abstractmethod
@@ -167,8 +171,8 @@ class IntOperation(IntExpression):
 class IntSolver:
     _internal: c_void_p
 
-    def __init__(self, algo_name: str) -> None:
-        self._internal = lib.int_get_solver(c_char_p(algo_name.encode('utf8')))
+    def __init__(self, algo_name: Algorithm) -> None:
+        self._internal = lib.int_get_solver(c_char_p(algo_name.value.encode('utf8')))
 
     def add_variable(self, min: int, max: int) -> IntVar:
         return IntVar(lib.int_add_variable(c_void_p(self._internal), c_int32(min), c_int32(max)))

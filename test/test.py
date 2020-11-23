@@ -5,7 +5,7 @@ from pyopencbls import solver, constraint
 
 def queenmain():
     n = int(input())
-    _solver = solver.IntSolver('simple hill climbing')
+    _solver = solver.IntSolver(solver.Algorithm.SIMPLE_HILL_CLIMBING)
     vars: list[solver.IntVar]
     vars = []
     for i in range(n):
@@ -34,7 +34,7 @@ def queenmain():
         print(vars[i].value())
 
 def inequation():
-    _solver = solver.IntSolver('simple hill climbing')
+    _solver = solver.IntSolver(solver.Algorithm.SIMPLE_HILL_CLIMBING)
     s = _solver.add_variable(30, 2000)
     p = _solver.add_variable(20, 1500)
     _solver.add_constraint(s // 5 + p * 3 // 10 <= 400)
@@ -43,4 +43,4 @@ def inequation():
     print(p.value())
 
 if __name__ == "__main__":
-    inequation()
+    queenmain()
