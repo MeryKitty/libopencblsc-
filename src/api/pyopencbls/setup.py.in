@@ -1,0 +1,46 @@
+from setuptools import find_packages, setup
+from setuptools.dist import Distribution
+
+class BinaryDistribution(Distribution):
+  def is_pure(self):
+    return False
+  def has_ext_modules(self):
+    return True
+
+from setuptools.command.install import install
+class InstallPlatlib(install):
+    def finalize_options(self):
+        install.finalize_options(self)
+        self.install_lib=self.install_platlib
+
+setup(
+  name='@PROJECT_NAME@',
+  version='@PROJECT_VERSION@',
+  author='Nguyen Trung Hieu',
+  author_email='nguyentrunghieu1999210@gmail.com',
+  description='opencbls with C++ backend',
+  long_description='read(README.txt)',
+  keywords=('constraint programming'),
+  url='',
+  download_url='',
+  distclass=BinaryDistribution,
+  cmdclass={'install': InstallPlatlib},
+  packages=find_packages(),
+  package_data={
+  '@PROJECT_NAME@':['./*.so', './*.pyd'],
+  },
+  include_package_data=True,
+  #install_requires=['protobuf >= 3.13.0', 'six >= 1.10'],
+  classifiers=[
+  'Intended Audience :: Developers',
+  'License :: OSI Approved :: Apache Software License',
+  'Operating System :: POSIX :: Linux',
+  'Operating System :: MacOS :: MacOS X',
+  'Operating System :: Microsoft :: Windows',
+  'Programming Language :: C++',
+  'Programming Language :: Python',
+  'Programming Language :: Python :: 3.7',
+  'Programming Language :: Python :: 3.8',
+  'Programming Language :: Python :: 3.9',
+  ],
+)
