@@ -2,13 +2,8 @@ from opencbls import solver, constraint
 
 def queenmain():
     n = int(input())
-<<<<<<< HEAD
-    _solver = solver.IntSolver('simple hill climbing')
-    # vars: list[solver.IntVar]
-=======
     _solver = solver.IntSolver(solver.Algorithm.SIMPLE_HILL_CLIMBING)
     vars: list[solver.IntVar]
->>>>>>> aa61356a8da617cf5f3c3182094342ca8db26d90
     vars = []
     for i in range(n):
         vars.append(_solver.add_variable(0, n))
