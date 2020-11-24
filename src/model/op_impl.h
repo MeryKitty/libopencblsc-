@@ -6,6 +6,7 @@
 #include <utility>
 #include <vector>
 
+#include "basics/raw_ptr.h"
 #include "model/expression.h"
 
 namespace opencbls {

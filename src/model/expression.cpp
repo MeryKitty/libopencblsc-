@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "basics/utility.h"
+#include "basics/raw_ptr.h"
 #include "model/expression.h"
 
 namespace opencbls {

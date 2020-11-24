@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "basics/constant.h"
+#include "basics/raw_ptr.h"
 
 namespace opencbls {
 	template <class T> class const_t;

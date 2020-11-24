@@ -1,22 +1,8 @@
-/*
- * constant.hpp
- *
- *  Created on: 29 Oct 2020
- *      Author: MeryKitty
- */
-
 #ifndef BASICS_CONSTANT_H_INCLUDED
 #define BASICS_CONSTANT_H_INCLUDED
 
-#include <experimental/memory>
-
 static_assert(sizeof(int) == 4);
 static_assert(sizeof(long long) == 8);
-
-namespace std {
-	template <class T>
-	using raw_ptr = experimental::observer_ptr<T>;
-}
 
 namespace opencbls {
 	namespace constant {

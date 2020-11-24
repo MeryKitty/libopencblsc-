@@ -3,6 +3,7 @@
 #include <utility>
 
 #include "basics/constant.h"
+#include "basics/raw_ptr.h"
 #include "model/expression.h"
 #include "algorithm/solver.h"
 #include "algorithm/algorithm.h"

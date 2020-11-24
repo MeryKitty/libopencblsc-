@@ -1,10 +1,3 @@
-/*
- * model.cpp
- *
- *  Created on: 21 Nov 2020
- *      Author: MeryKitty
- */
-
 #include "model/expression.h"
 #include "model/op_impl.h"
 #include "model/constraint.h"

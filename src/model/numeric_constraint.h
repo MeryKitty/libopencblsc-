@@ -1,14 +1,8 @@
-/*
- * numeric_constraint.h
- *
- *  Created on: 30 Oct 2020
- *      Author: MeryKitty
- */
-
 #ifndef MODEL_NUMERIC_CONSTRAINT_H_INCLUDED
 #define MODEL_NUMERIC_CONSTRAINT_H_INCLUDED
 
 #include "basics/constant.h"
+#include "basics/raw_ptr.h"
 #include "model/expression.h"
 #include "model/constraint.h"
 

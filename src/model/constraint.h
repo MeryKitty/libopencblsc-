@@ -1,10 +1,3 @@
-/*
- * constraint.h
- *
- *  Created on: 29 Oct 2020
- *      Author: MeryKitty
- */
-
 #ifndef MODEL_CONSTRAINT_H_INCLUDED
 #define MODEL_CONSTRAINT_H_INCLUDED
 
@@ -14,6 +7,7 @@
 #include <vector>
 
 #include "basics/constant.h"
+#include "basics/raw_ptr.h"
 #include "model/expression.h"
 
 namespace opencbls {

@@ -1,15 +1,9 @@
-/*
- * combinatoric_constraint.cpp
- *
- *  Created on: 13 Nov 2020
- *      Author: MeryKitty
- */
-
 #include <iostream>
 #include <vector>
 
 #include "basics/constant.h"
 #include "basics/utility.h"
+#include "basics/raw_ptr.h"
 #include "model/expression.h"
 #include "model/combinatoric_constraint.h"
 
