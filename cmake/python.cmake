@@ -39,14 +39,6 @@ file(COPY src/api/pyopencbls/__init__.py DESTINATION python/${PROJECT_NAME})
 file(COPY src/api/pyopencbls/constraint.py DESTINATION python/${PROJECT_NAME})
 file(COPY src/api/pyopencbls/operation.py DESTINATION python/${PROJECT_NAME})
 file(COPY src/api/pyopencbls/solver.py DESTINATION python/${PROJECT_NAME})
-file(COPY test/test.py DESTINATION python)
-# file(COPY ortools/__init__.py DESTINATION python/${PROJECT_NAME}/linear_solver)
-# file(COPY ortools/__init__.py DESTINATION python/${PROJECT_NAME}/sat)
-# file(COPY ortools/__init__.py DESTINATION python/${PROJECT_NAME}/sat/python)
-# file(COPY ortools/__init__.py DESTINATION python/${PROJECT_NAME}/graph)
-# file(COPY ortools/__init__.py DESTINATION python/${PROJECT_NAME}/algorithms)
-# file(COPY ortools/__init__.py DESTINATION python/${PROJECT_NAME}/data)
-
 
 ## set config file
 configure_file(
