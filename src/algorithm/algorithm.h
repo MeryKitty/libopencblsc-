@@ -1,10 +1,3 @@
-/*
- * hill_climbing.h
- *
- *  Created on: 17 Nov 2020
- *      Author: MeryKitty
- */
-
 #ifndef ALGORITHM_ALGORITHM_H_INCLUDED
 #define ALGORITHM_ALGORITHM_H_INCLUDED
 

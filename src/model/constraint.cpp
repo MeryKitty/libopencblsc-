@@ -1,10 +1,3 @@
-/*
- * constraint.cpp
- *
- *  Created on: 29 Oct 2020
- *      Author: MeryKitty
- */
-
 #include <memory>
 #include <utility>
 #include <variant>
@@ -12,6 +5,7 @@
 
 #include "basics/constant.h"
 #include "basics/utility.h"
+#include "basics/raw_ptr.h"
 #include "model/constraint.h"
 #include "model/expression.h"
 

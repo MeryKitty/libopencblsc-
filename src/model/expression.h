@@ -1,9 +1,3 @@
-	/*
- * utility.h
- *
- *  Created on: 28 Oct 2020
- *      Author: MeryKitty
- */
 #ifndef MODEL_EXPRESSION_H_INCLUDED
 #define MODEL_EXPRESSION_H_INCLUDED
 
@@ -14,6 +8,7 @@
 #include <vector>
 
 #include "basics/constant.h"
+#include "basics/raw_ptr.h"
 
 namespace opencbls {
 	template <class T> class const_t;

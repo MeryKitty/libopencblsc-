@@ -1,10 +1,3 @@
-/*
- * model.h
- *
- *  Created on: 20 Nov 2020
- *      Author: MeryKitty
- */
-
 #ifndef API_MODEL_H_INCLUDED
 #define API_MODEL_H_INCLUDED
 

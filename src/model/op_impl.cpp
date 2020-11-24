@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "basics/utility.h"
+#include "basics/raw_ptr.h"
 #include "model/op_impl.h"
 #include "model/expression.h"
 

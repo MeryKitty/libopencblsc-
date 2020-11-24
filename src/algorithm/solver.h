@@ -1,10 +1,3 @@
-/*
- * solver.h
- *
- *  Created on: 17 Nov 2020
- *      Author: MeryKitty
- */
-
 #ifndef ALGORITHM_SOLVER_H_INCLUDED
 #define ALGORITHM_SOLVER_H_INCLUDED
 

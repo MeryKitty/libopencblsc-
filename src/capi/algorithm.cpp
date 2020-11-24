@@ -1,15 +1,9 @@
-/*
- * algorithm.cpp
- *
- *  Created on: 20 Nov 2020
- *      Author: MeryKitty
- */
-
 #include <cstring>
 #include <memory>
 #include <utility>
 
 #include "basics/constant.h"
+#include "basics/raw_ptr.h"
 #include "model/expression.h"
 #include "algorithm/solver.h"
 #include "algorithm/algorithm.h"

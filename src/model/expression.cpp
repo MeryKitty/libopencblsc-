@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "basics/utility.h"
+#include "basics/raw_ptr.h"
 #include "model/expression.h"
 
 namespace opencbls {
@@ -27,7 +28,7 @@ namespace opencbls {
 	}
 
     template <class T>
-    var_t<T>::var_t(std::size_t id, T min, T max) : _id(id), _min(min), _max(max), _value(), _onehot(make_onehot(id)) {}
+    var_t<T>::var_t(std::size_t id, T min, T max) : _id(id), _min(min), _max(max), _value(min), _onehot(make_onehot(id)) {}
 
     template <class T>
     std::size_t var_t<T>::id() {

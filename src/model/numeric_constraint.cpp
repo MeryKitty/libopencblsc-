@@ -1,12 +1,6 @@
-/*
- * numeric_constraint.cpp
- *
- *  Created on: 3 Nov 2020
- *      Author: MeryKitty
- */
-
 #include "basics/constant.h"
 #include "basics/utility.h"
+#include "basics/raw_ptr.h"
 #include "model/expression.h"
 #include "model/constraint.h"
 #include "model/numeric_constraint.h"
