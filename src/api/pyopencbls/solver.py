@@ -9,7 +9,7 @@ class Algorithm(enum.Enum):
 
 class IntConstraint:
     @abstractmethod
-    def _get(self) -> c_void_p:
+    def _get(self):
         return None
 
 class IntExpression:
@@ -151,6 +151,9 @@ class IntConstant(IntExpression):
 
     def _get(self):
         return capi.int_add_constant(self._value)
+
+    def value(self) -> int:
+        return self._value
 
 class IntVar(IntExpression):
     def __init__(self, internal) -> None:
