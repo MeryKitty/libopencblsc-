@@ -9,4 +9,6 @@ namespace opencbls {
             stale_iter(500),
             intensify_weight(2),
             diversify_weight(2) {}
+
+    template class tabu_parameters<int>;
 }
