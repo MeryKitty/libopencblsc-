@@ -5,7 +5,6 @@ swig_add_library(capi
   LANGUAGE python
   OUTPUT_DIR ${PROJECT_BINARY_DIR}/python/${PROJECT_NAME}/
   SOURCES capi.i)
-  # "${PROJECT_SOURCE_DIR}/mergeable_heap/fibonacci_heap/fibon_heap.h"
 target_include_directories(capi PRIVATE ${Python_INCLUDE_DIRS})
 set_property(TARGET capi PROPERTY SWIG_USE_TARGET_INCLUDE_DIRECTORIES ON)
 if(Python_VERSION VERSION_GREATER_EQUAL 3)

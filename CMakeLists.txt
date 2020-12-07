@@ -15,9 +15,6 @@ cmake_policy(SET CMP0078 NEW)
 project(opencbls LANGUAGES CXX)
 set(PROJECT_VERSION 0.0.1)
 message(STATUS "${PROJECT_NAMESPACE}")
-# set(PROJECT_NAMESPACE mergeableheap)
-# add path for custom modules
-# list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
