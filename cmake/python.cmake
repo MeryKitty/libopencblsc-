@@ -41,7 +41,10 @@ file(COPY src/api/pyopencbls/__init__.py DESTINATION python/${PROJECT_NAME})
 file(COPY src/api/pyopencbls/constraint.py DESTINATION python/${PROJECT_NAME})
 file(COPY src/api/pyopencbls/operation.py DESTINATION python/${PROJECT_NAME})
 file(COPY src/api/pyopencbls/solver.py DESTINATION python/${PROJECT_NAME})
+<<<<<<< HEAD
 file(COPY test/test.py DESTINATION python)
+=======
+>>>>>>> 8e364b00ae070d3ef61091e2fdb9c77bfe407e20
 
 ## set config file
 configure_file(

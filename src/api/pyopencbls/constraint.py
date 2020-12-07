@@ -1,3 +1,4 @@
+from _typeshed import SupportsWrite
 from . import capi
 from .solver import IntConstraint, IntExpression
 

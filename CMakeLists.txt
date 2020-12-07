@@ -11,16 +11,16 @@ cmake_policy(SET CMP0086 NEW)
 cmake_policy(SET CMP0078 NEW)
 # endif()
 
-
 project(opencbls LANGUAGES CXX)
 set(PROJECT_VERSION 0.0.1)
 message(STATUS "${PROJECT_NAMESPACE}")
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-
-
-
 
 if(UNIX)
   option(BUILD_SHARED_LIBS "Build shared libraries(.so or .dyld)." ON)
@@ -50,12 +50,8 @@ else()
 #   endforeach()
 endif()
 
-
-
-
 option(BUILD_CXX "Build C++ library" ON)
 message(STATUS "Build C++ library: ${BUILD_CXX}")
-
 
 option(BUILD_PYTHON "Build Python Library" ON)
 message(STATUS "Build Python: ${BUILD_PYTHON}")
@@ -71,7 +67,6 @@ file(GENERATE
     OUTPUT ${PROJECT_BINARY_DIR}/${PROJECT_NAME}/version.cpp
     CONTENT "namespace {char* version = \"${PROJECT_VERSION}\";}")
 target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}/version.cpp)
-
 
 include(cpp)
 include(python)
