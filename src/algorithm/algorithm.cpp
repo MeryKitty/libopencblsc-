@@ -7,7 +7,7 @@ namespace opencbls {
             diversify_period(50),
             limit_iter(10000),
             stale_iter(500),
-            intensify_weight(2),
+            intensify_weight(0),
             diversify_weight(2) {}
 
     template class tabu_parameters<int>;
