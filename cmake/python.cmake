@@ -17,13 +17,13 @@ endif()
 
 # Find Python
 # find_package(Python REQUIRED COMPONENTS Interpreter Development)
-find_package(Python REQUIRED)
+# find_package(Python REQUIRED)
 
-# if(UNIX)
-#   find_package(Python REQUIRED COMPONENTS Interpreter Development)
-# else()
-#   find_package(Python REQUIRED)
-# endif()
+if(UNIX)
+  find_package(Python REQUIRED)
+else()
+  find_package(Python REQUIRED COMPONENTS Interpreter Development)
+endif()
 
 INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
 if(Python_VERSION VERSION_GREATER_EQUAL 3)
@@ -64,6 +64,7 @@ add_custom_target(python_package ALL
   # COMMAND ${Python_EXECUTABLE} setup.py bdist_wheel
   BYPRODUCTS
     "python/${PROJECT_NAME}"
+    "python/setup.py"
     # python/build
     # python/dist
     # python/${PROJECT_NAME}.egg-info
