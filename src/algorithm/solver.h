@@ -15,13 +15,16 @@ namespace opencbls {
 	class solver {
 	private:
 		std::function<void(std::vector<std::raw_ptr<var_t<T>>>&,
-				std::vector<std::pair<T, std::unique_ptr<constraint_t<T>>>>&)> _algo;
+				std::vector<std::pair<T, std::unique_ptr<constraint_t<T>>>>&,
+				std::any)> _algo;
+		std::any _parameters;
 		std::size_t _current_id = 0;
 		std::vector<std::unique_ptr<var_t<T>>> _variables;
 		std::vector<std::pair<T, std::unique_ptr<constraint_t<T>>>> _constraints;
 	public:
 		solver(std::function<void(std::vector<std::raw_ptr<var_t<T>>>&,
-				std::vector<std::pair<T, std::unique_ptr<constraint_t<T>>>>&)> algo);
+				std::vector<std::pair<T, std::unique_ptr<constraint_t<T>>>>&,
+				std::any)> algo, std::any parameters);
 		void add_constraint(std::unique_ptr<constraint_t<T>> constraint, T weight = T(1));
 		std::raw_ptr<var_t<T>> add_variable(T min, T max);
 		std::vector<T> value();

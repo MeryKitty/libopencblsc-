@@ -1,0 +1,118 @@
+#include <any>
+#include <iostream>
+#include <limits>
+#include <memory>
+#include <utility>
+#include <vector>
+
+#include "basics/constant.h"
+#include "model/expression.h"
+#include "model/constraint.h"
+#include "algorithm/algorithm.h"
+
+namespace opencbls {
+    template <class T>
+    void tabu_search(std::vector<std::raw_ptr<var_t<T>>>& variables,
+			std::vector<std::pair<T, std::unique_ptr<constraint_t<T>>>>& constraints,
+            std::any parameters) {
+        tabu_parameters<T> _parameters = std::any_cast<tabu_parameters<T>>(parameters);
+        bool _intensify_phase = false;
+        T _best_violation = std::numeric_limits<T>::max();
+        std::vector<T> _best_var(variables.size());
+        std::vector<T> _pivot(variables.size());
+        auto violation = [&variables, &constraints]() {
+			T _violation = T(0);
+			for (auto&& constraint : constraints) {
+				_violation += constraint.first * constraint.second->violation();
+			}
+			return _violation;
+		};
+
+        auto delta = [&variables, &constraints](std::raw_ptr<var_t<T>> var, T value) {
+			T _delta = T(0);
+			for (auto&& constraint : constraints) {
+				_delta += constraint.first * constraint.second->violation_delta(var, value);
+			}
+			return _delta;
+		};
+
+        auto modified_violation = [&variables, &constraints, &_parameters, &_pivot, violation, &_intensify_phase]() {
+            T _base = violation();
+            T _diff = T(0);
+            for (std::size_t i = 0; i < variables.size(); i++) {
+                T _temp = variables[i]->value() - _pivot[i];
+                _temp = _temp > 0 ? _temp : -_temp;
+                _diff += _temp;
+            }
+            if (_intensify_phase) {
+                return _base + _parameters.intensify_weight * _diff;
+            } else {
+                return _base - _parameters.diversify_weight * _diff;
+            }
+        };
+
+        auto modified_delta = [&variables, &constraints, &_parameters, &_pivot, delta, &_intensify_phase](std::raw_ptr<var_t<T>> var, T value) {
+            T _base = delta(var, value);
+            std::size_t index;
+            for (std::size_t i = 0; i < variables.size(); i++) {
+                if (variables[i] == var) {
+                    index = i;
+                    break;
+                }
+            }
+            T _ori_diff = variables[index]->value() - _pivot[index];
+            _ori_diff = _ori_diff > 0 ? _ori_diff : -_ori_diff;
+            T _new_diff = value - _pivot[index];
+            _new_diff = _new_diff > 0 ? _new_diff : -_new_diff;
+            T _diff = _new_diff - _ori_diff;
+            if (_intensify_phase) {
+                return _base + _parameters.intensify_weight * _diff;
+            } else {
+                return _base - _parameters.diversify_weight * _diff;
+            }
+        };
+
+        std::size_t _period = _parameters.intensify_period + _parameters.diversify_period;
+        T _current = violation();
+        for (std::size_t _iter = 0, _stale_iter = 0; _iter < _parameters.limit_iter; _iter++) {
+            std::size_t _phase = _iter % _period;
+            if (_phase == 0) {
+                _intensify_phase = true;
+            } else if (_phase == _parameters.intensify_period) {
+                _intensify_phase = false;
+            }
+            T _best_modified_delta = std::numeric_limits<T>::max();
+            std::raw_ptr<var_t<T>> _best_var;
+            T _best_value;
+            for (auto&& _var : variables) {
+                for (T _value = _var->min(); _value < _var->max(); _value += constant::tolerance<T>) {
+					T _modified_delta = modified_delta(_var, _value);
+					if (_modified_delta < _best_modified_delta) {
+						_best_modified_delta = _modified_delta;
+                        _best_var = _var;
+                        _best_value = _value;
+					}
+				}
+            }
+            T _delta = delta(_best_var, _best_value);
+            _current += _delta;
+            _best_var->assign(_best_value);
+            if (_current == 0) {
+                break;
+            }
+            if (_current < _best_violation) {
+                _current = _best_violation;
+                _stale_iter = 0;
+            } else {
+                _stale_iter++;
+                if (_stale_iter > _parameters.stale_iter) {
+                    break;
+                }
+            }
+        }
+    }
+
+    template void tabu_search<int>(std::vector<std::raw_ptr<var_t<int>>>& variables,
+			std::vector<std::pair<int, std::unique_ptr<constraint_t<int>>>>& constraints,
+            std::any parameters);
+}

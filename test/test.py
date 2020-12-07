@@ -39,7 +39,7 @@ def inequation():
     print(p.value())
 
 def sudoku():
-    _solver = solver.IntSolver(solver.Algorithm.SIMPLE_HILL_CLIMBING)
+    _solver = solver.IntSolver(solver.Algorithm.TABU_SEARCH)
     vars: list[list[solver.IntExpression]]
     vars = list()
     for i in range(9):

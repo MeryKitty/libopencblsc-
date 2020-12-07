@@ -6,6 +6,7 @@ from . import capi
 
 class Algorithm(enum.Enum):
     SIMPLE_HILL_CLIMBING = 'simple hill climbing'
+    TABU_SEARCH = 'tabu search'
 
 class IntConstraint:
     @abstractmethod

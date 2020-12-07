@@ -1,3 +1,4 @@
+#include <any>
 #include <cstring>
 #include <memory>
 #include <utility>
@@ -12,10 +13,16 @@ extern "C" {
 	void* int_get_solver(char* algorithm) {
 		if (strcmp(algorithm, "simple hill climbing") == 0) {
 			std::function<void(std::vector<std::raw_ptr<opencbls::var_t<int>>>&,
-					std::vector<std::pair<int, std::unique_ptr<opencbls::constraint_t<int>>>>&)>
-					_algo = opencbls::simple_hill_climbing<int>;
-			return new opencbls::solver<int>(_algo);
-		} else {
+					std::vector<std::pair<int, std::unique_ptr<opencbls::constraint_t<int>>>>&,
+					std::any)> _algo = opencbls::simple_hill_climbing<int>;
+			return new opencbls::solver<int>(_algo, std::any());
+		} else if (strcmp(algorithm, "tabu search") == 0) {
+			std::function<void(std::vector<std::raw_ptr<opencbls::var_t<int>>>&,
+					std::vector<std::pair<int, std::unique_ptr<opencbls::constraint_t<int>>>>&,
+					std::any)> _algo = opencbls::tabu_search<int>;
+			return new opencbls::solver<int>(_algo, std::any(opencbls::tabu_parameters<int>()));
+		}
+		else {
 			return nullptr;
 		}
 	}
