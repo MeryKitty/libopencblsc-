@@ -18,7 +18,7 @@ namespace opencbls {
         tabu_parameters<T> _parameters = std::any_cast<tabu_parameters<T>>(parameters);
         bool _intensify_phase = false;
         T _best_violation = std::numeric_limits<T>::max();
-        std::vector<T> _best_var(variables.size());
+        std::vector<T> _best_vars(variables.size());
         std::vector<T> _pivot(variables.size());
         auto violation = [&variables, &constraints]() {
 			T _violation = T(0);
@@ -76,39 +76,50 @@ namespace opencbls {
         T _current = violation();
         for (std::size_t _iter = 0, _stale_iter = 0; _iter < _parameters.limit_iter; _iter++) {
             std::size_t _phase = _iter % _period;
-            if (_phase == 0) {
-                _intensify_phase = true;
-            } else if (_phase == _parameters.intensify_period) {
-                _intensify_phase = false;
+            if (_phase == 0 || _phase == _parameters.intensify_period) {
+                for (std::size_t i = 0; i < variables.size(); i++) {
+                    _pivot[i] = variables[i]->value();
+                }
+                if (_phase == 0) {
+                    _intensify_phase = true;
+                } else {
+                    _intensify_phase = false;
+                }
             }
-            T _best_modified_delta = std::numeric_limits<T>::max();
-            std::raw_ptr<var_t<T>> _best_var;
-            T _best_value;
+            T _best_mod_delta = std::numeric_limits<T>::max();
+            std::raw_ptr<var_t<T>> _best_mod_var;
+            T _best_mod_value;
             for (auto&& _var : variables) {
                 for (T _value = _var->min(); _value < _var->max(); _value += constant::tolerance<T>) {
 					T _modified_delta = modified_delta(_var, _value);
-					if (_modified_delta < _best_modified_delta) {
-						_best_modified_delta = _modified_delta;
-                        _best_var = _var;
-                        _best_value = _value;
+					if (_modified_delta < _best_mod_delta) {
+						_best_mod_delta = _modified_delta;
+                        _best_mod_var = _var;
+                        _best_mod_value = _value;
 					}
 				}
             }
-            T _delta = delta(_best_var, _best_value);
+            T _delta = delta(_best_mod_var, _best_mod_value);
             _current += _delta;
-            _best_var->assign(_best_value);
-            if (_current == 0) {
-                break;
-            }
+            _best_mod_var->assign(_best_mod_value);
             if (_current < _best_violation) {
                 _current = _best_violation;
                 _stale_iter = 0;
+                for (std::size_t i = 0; i < variables.size(); i++) {
+                    _best_vars[i] = variables[i]->value();
+                }
+                if (_current == 0) {
+                    break;
+                }
             } else {
                 _stale_iter++;
                 if (_stale_iter > _parameters.stale_iter) {
                     break;
                 }
             }
+        }
+        for (std::size_t i = 0; i < variables.size(); i++) {
+            variables[i]->assign(_best_vars[i]);
         }
     }
 
