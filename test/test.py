@@ -2,7 +2,7 @@ from opencbls import solver, constraint
 
 def queenmain():
     n = int(input())
-    _solver = solver.IntSolver(solver.Algorithm.SIMPLE_HILL_CLIMBING)
+    _solver = solver.IntSolver(solver.Algorithm.TABU_SEARCH)
     vars: list[solver.IntVar]
     vars = []
     for i in range(n):

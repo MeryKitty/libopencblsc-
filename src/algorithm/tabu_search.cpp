@@ -17,8 +17,6 @@ namespace opencbls {
             std::any parameters) {
         tabu_parameters<T> _parameters = std::any_cast<tabu_parameters<T>>(parameters);
         bool _intensify_phase = false;
-        T _best_violation = std::numeric_limits<T>::max();
-        std::vector<T> _best_vars(variables.size());
         std::vector<T> _pivot(variables.size());
         auto violation = [&variables, &constraints]() {
 			T _violation = T(0);
@@ -36,33 +34,18 @@ namespace opencbls {
 			return _delta;
 		};
 
-        auto modified_violation = [&variables, &constraints, &_parameters, &_pivot, violation, &_intensify_phase]() {
-            T _base = violation();
-            T _diff = T(0);
-            for (std::size_t i = 0; i < variables.size(); i++) {
-                T _temp = variables[i]->value() - _pivot[i];
-                _temp = _temp > 0 ? _temp : -_temp;
-                _diff += _temp;
-            }
-            if (_intensify_phase) {
-                return _base + _parameters.intensify_weight * _diff;
-            } else {
-                return _base - _parameters.diversify_weight * _diff;
-            }
-        };
-
-        auto modified_delta = [&variables, &constraints, &_parameters, &_pivot, delta, &_intensify_phase](std::raw_ptr<var_t<T>> var, T value) {
+        auto modified_delta = [&variables, &constraints, &_parameters, &_pivot, &delta, &_intensify_phase](std::raw_ptr<var_t<T>> var, T value) {
             T _base = delta(var, value);
-            std::size_t index;
+            std::size_t _index;
             for (std::size_t i = 0; i < variables.size(); i++) {
                 if (variables[i] == var) {
-                    index = i;
+                    _index = i;
                     break;
                 }
             }
-            T _ori_diff = variables[index]->value() - _pivot[index];
+            T _ori_diff = variables[_index]->value() - _pivot[_index];
             _ori_diff = _ori_diff > 0 ? _ori_diff : -_ori_diff;
-            T _new_diff = value - _pivot[index];
+            T _new_diff = value - _pivot[_index];
             _new_diff = _new_diff > 0 ? _new_diff : -_new_diff;
             T _diff = _new_diff - _ori_diff;
             if (_intensify_phase) {
@@ -72,8 +55,13 @@ namespace opencbls {
             }
         };
 
+        T _best_violation = violation();
+        std::vector<T> _best_vars(variables.size());
+        for (std::size_t i = 0; i < variables.size(); i++) {
+            _best_vars[i] = variables[i]->value();
+        }
         std::size_t _period = _parameters.intensify_period + _parameters.diversify_period;
-        T _current = violation();
+        T _current = _best_violation;
         for (std::size_t _iter = 0, _stale_iter = 0; _iter < _parameters.limit_iter; _iter++) {
             std::size_t _phase = _iter % _period;
             if (_phase == 0 || _phase == _parameters.intensify_period) {
@@ -86,14 +74,14 @@ namespace opencbls {
                     _intensify_phase = false;
                 }
             }
-            T _best_mod_delta = std::numeric_limits<T>::max();
+            T _best_mod_delta = std::numeric_limits<T>::max() - 1;
             std::raw_ptr<var_t<T>> _best_mod_var;
             T _best_mod_value;
             for (auto&& _var : variables) {
                 for (T _value = _var->min(); _value < _var->max(); _value += constant::tolerance<T>) {
-					T _modified_delta = modified_delta(_var, _value);
-					if (_modified_delta < _best_mod_delta) {
-						_best_mod_delta = _modified_delta;
+					T _mod_delta = modified_delta(_var, _value);
+					if (_mod_delta < _best_mod_delta) {
+						_best_mod_delta = _mod_delta;
                         _best_mod_var = _var;
                         _best_mod_value = _value;
 					}
@@ -101,9 +89,10 @@ namespace opencbls {
             }
             T _delta = delta(_best_mod_var, _best_mod_value);
             _current += _delta;
+            std::cout << "Violation: " << _current << std::endl;
             _best_mod_var->assign(_best_mod_value);
             if (_current < _best_violation) {
-                _current = _best_violation;
+                _best_violation = _current;
                 _stale_iter = 0;
                 for (std::size_t i = 0; i < variables.size(); i++) {
                     _best_vars[i] = variables[i]->value();
