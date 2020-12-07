@@ -5,6 +5,7 @@
  *      Author: MeryKitty
  */
 
+#include <any>
 #include <functional>
 #include <iostream>
 #include <memory>
@@ -23,9 +24,9 @@ int cppmain() {
 	int N;
 	std::cin >> N;
 	std::function<void(std::vector<std::raw_ptr<opencbls::var_t<int>>>&,
-			std::vector<std::pair<int, std::unique_ptr<opencbls::constraint_t<int>>>>&)>
-			_algo = opencbls::simple_hill_climbing<int>;
-	opencbls::solver<int> _solver(_algo);
+			std::vector<std::pair<int, std::unique_ptr<opencbls::constraint_t<int>>>>&,
+			std::any)> _algo = opencbls::simple_hill_climbing<int>;
+	opencbls::solver<int> _solver(_algo, std::any());
 	queen_set_up(_solver, N);
 	_solver.solve();
 	std::vector<int> result = _solver.value();
