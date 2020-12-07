@@ -41,10 +41,6 @@ file(COPY src/api/pyopencbls/__init__.py DESTINATION python/${PROJECT_NAME})
 file(COPY src/api/pyopencbls/constraint.py DESTINATION python/${PROJECT_NAME})
 file(COPY src/api/pyopencbls/operation.py DESTINATION python/${PROJECT_NAME})
 file(COPY src/api/pyopencbls/solver.py DESTINATION python/${PROJECT_NAME})
-<<<<<<< HEAD
-file(COPY test/test.py DESTINATION python)
-=======
->>>>>>> 8e364b00ae070d3ef61091e2fdb9c77bfe407e20
 
 ## set config file
 configure_file(
@@ -56,7 +52,7 @@ file(GENERATE
   INPUT ${PROJECT_BINARY_DIR}/python/setup.py.in)
 
 add_custom_target(python_package ALL
-  # COMMAND ${CMAKE_COMMAND} -E copy $<CONFIG>/setup.py setup.py
+  COMMAND ${CMAKE_COMMAND} -E copy $<CONFIG>/setup.py setup.py
   COMMAND ${CMAKE_COMMAND} -E remove_directory dist
   # COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_NAME}/.libs
   # Don't need to copy static lib on windows.
@@ -67,7 +63,7 @@ add_custom_target(python_package ALL
   # COMMAND ${Python_EXECUTABLE} setup.py bdist_wheel
   BYPRODUCTS
     "python/${PROJECT_NAME}"
-    "python/setup.py"
+    # "python/setup.py"
     # python/build
     # python/dist
     # python/${PROJECT_NAME}.egg-info
