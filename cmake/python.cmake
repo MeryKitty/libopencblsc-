@@ -16,11 +16,13 @@ endif()
 
 
 # Find Python
+# find_package(Python REQUIRED COMPONENTS Interpreter Development)
+# find_package(Python REQUIRED)
 
 if(UNIX)
-  find_package(Python REQUIRED COMPONENTS Interpreter Development)
-else()
   find_package(Python REQUIRED)
+else()
+  find_package(Python REQUIRED COMPONENTS Interpreter Development)
 endif()
 
 INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
@@ -57,17 +59,11 @@ add_custom_target(python_package ALL
   COMMAND ${CMAKE_COMMAND} -E $<IF:$<BOOL:${UNIX}>,copy,true>
   $<$<BOOL:${UNIX}>:$<TARGET_SONAME_FILE:${PROJECT_NAME}>> ${PROJECT_NAME}
   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:capi> ${PROJECT_NAME}/
-  # COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:binheap> ${PROJECT_NAME}/binomial_heap
-#   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pywrapgraph> ${PROJECT_NAME}/graph
-#   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pywrapcp> ${PROJECT_NAME}/constraint_solver
-#   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pywraplp> ${PROJECT_NAME}/linear_solver
-#   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pywrapsat> ${PROJECT_NAME}/sat
-#   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pywraprcpsp> ${PROJECT_NAME}/data
-#   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:sorted_interval_list> ${PROJECT_NAME}/util
   #COMMAND ${Python_EXECUTABLE} setup.py bdist_egg bdist_wheel
   # COMMAND ${Python_EXECUTABLE} setup.py bdist_wheel
   BYPRODUCTS
     "python/${PROJECT_NAME}"
+    "python/setup.py"
     # python/build
     # python/dist
     # python/${PROJECT_NAME}.egg-info
