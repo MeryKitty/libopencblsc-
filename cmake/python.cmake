@@ -54,7 +54,6 @@ file(GENERATE
 add_custom_target(python_package ALL
   COMMAND ${CMAKE_COMMAND} -E copy $<CONFIG>/setup.py setup.py
   COMMAND ${CMAKE_COMMAND} -E remove_directory dist
-  # COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_NAME}/.libs
   # Don't need to copy static lib on windows.
   COMMAND ${CMAKE_COMMAND} -E $<IF:$<BOOL:${UNIX}>,copy,true>
   $<$<BOOL:${UNIX}>:$<TARGET_SONAME_FILE:${PROJECT_NAME}>> ${PROJECT_NAME}

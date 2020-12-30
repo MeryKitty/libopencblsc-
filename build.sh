@@ -74,5 +74,6 @@ hashlib.sha256(open('${WHEEL_FILE}', 'rb').read())\
     # Repack it as a manylinux1 package
     WHEEL_FILE=${FILE//manylinux2010/manylinux1}
     (cd /tmp; zip -r ${WHEEL_FILE} opencbls opencbls-*; rm -r opencbls*)
+
     deactivate
 done
