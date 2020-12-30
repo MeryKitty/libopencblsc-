@@ -10,7 +10,8 @@
 namespace opencbls {
 	template <class T>
 	void simple_hill_climbing(std::vector<std::raw_ptr<var_t<T>>>& variables,
-			std::vector<std::pair<T, std::unique_ptr<constraint_t<T>>>>& constraints) {
+			std::vector<std::pair<T, std::unique_ptr<constraint_t<T>>>>& constraints,
+			std::any parameters) {
 		std::cout << "Number of variables: " << variables.size() << std::endl;
 		std::cout << "Number of constraints: " << constraints.size() << std::endl;
 		auto violation = [&variables, &constraints]() {
@@ -51,5 +52,6 @@ namespace opencbls {
 	}
 
 	template void simple_hill_climbing<int>(std::vector<std::raw_ptr<var_t<int>>>& variables,
-			std::vector<std::pair<int, std::unique_ptr<constraint_t<int>>>>& constraints);
+			std::vector<std::pair<int, std::unique_ptr<constraint_t<int>>>>& constraints,
+			std::any parameters);
 }

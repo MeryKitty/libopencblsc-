@@ -5,6 +5,7 @@
  *      Author: MeryKitty
  */
 
+#include <any>
 #include <iostream>
 #include <memory>
 #include <utility>
@@ -18,8 +19,10 @@
 namespace opencbls {
 	template <class T>
 	solver<T>::solver(std::function<void(std::vector<std::raw_ptr<var_t<T>>>&,
-			std::vector<std::pair<T, std::unique_ptr<constraint_t<T>>>>&)> algo) :
+			std::vector<std::pair<T, std::unique_ptr<constraint_t<T>>>>&,
+			std::any)> algo, std::any parameters) :
 			_algo(algo),
+			_parameters(parameters),
 			_variables(std::vector<std::unique_ptr<var_t<T>>>()),
 			_constraints(std::vector<std::pair<T, std::unique_ptr<constraint_t<T>>>>()) {}
 
@@ -56,7 +59,7 @@ namespace opencbls {
 		for (auto&& var : this->_variables) {
 			_variables.emplace_back(std::raw_ptr<var_t<T>>(var.get()));
 		}
-		this->_algo(_variables, this->_constraints);
+		this->_algo(_variables, this->_constraints, this->_parameters);
 	}
 
 	template <class T>
