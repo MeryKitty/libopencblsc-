@@ -145,7 +145,6 @@ class IntExpression:
             return NotImplemented
 
 class IntConstant(IntExpression):
-    _value: int
 
     def __init__(self, value: int) -> None:
         self._value = value

@@ -74,4 +74,5 @@ def sudoku():
             print(str(vars[i][j].value()) + ' ', end = '')
 
 if __name__ == "__main__":
+    # queenmain()
     sudoku()

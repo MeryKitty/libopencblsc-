@@ -52,21 +52,18 @@ file(GENERATE
   INPUT ${PROJECT_BINARY_DIR}/python/setup.py.in)
 
 add_custom_target(python_package ALL
-  # COMMAND ${CMAKE_COMMAND} -E copy $<CONFIG>/setup.py setup.py
+  COMMAND ${CMAKE_COMMAND} -E copy $<CONFIG>/setup.py setup.py
   COMMAND ${CMAKE_COMMAND} -E remove_directory dist
-  # COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_NAME}/.libs
   # Don't need to copy static lib on windows.
   COMMAND ${CMAKE_COMMAND} -E $<IF:$<BOOL:${UNIX}>,copy,true>
   $<$<BOOL:${UNIX}>:$<TARGET_SONAME_FILE:${PROJECT_NAME}>> ${PROJECT_NAME}
   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:capi> ${PROJECT_NAME}/
-  #COMMAND ${Python_EXECUTABLE} setup.py bdist_egg bdist_wheel
-  # COMMAND ${Python_EXECUTABLE} setup.py bdist_wheel
+  COMMAND ${Python_EXECUTABLE} setup.py bdist_wheel
   BYPRODUCTS
     "python/${PROJECT_NAME}"
-    "python/setup.py"
-    # python/build
-    # python/dist
-    # python/${PROJECT_NAME}.egg-info
+    python/build
+    python/dist
+    python/${PROJECT_NAME}.egg-info
   WORKING_DIRECTORY python
   )
 add_dependencies(python_package ${PROJECT_NAME}::${PROJECT_NAME})
