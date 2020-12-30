@@ -12,7 +12,7 @@ cmake_policy(SET CMP0078 NEW)
 # endif()
 
 project(opencbls LANGUAGES CXX)
-set(PROJECT_VERSION 0.0.1)
+set(PROJECT_VERSION 0.0.2)
 message(STATUS "${PROJECT_NAMESPACE}")
 
 if(NOT CMAKE_BUILD_TYPE)
